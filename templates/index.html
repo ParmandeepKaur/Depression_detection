@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Depression Risk Screening</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <div class="card split-card">
+
+            <div class="image-side">
+                <img src="{{ url_for('static', filename='Depression.jpg') }}" alt="Mental Health Awareness"
+                    onerror="this.style.display='none'">
+                <div class="image-overlay">
+                    <h3>You are not alone.</h3>
+                    <p>Take the first step towards understanding your mental health with our AI-powered assessment.</p>
+                </div>
+            </div>
+
+            <div class="form-side">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+
+                <header>
+                    <h2 class="title" id="stepTitle">Let's get started</h2>
+                    <p class="subtitle" id="stepSubtitle">Step 1 of 4</p>
+                </header>
+
+                <form action="/screen" method="POST" class="screening-form" id="assessmentForm">
+
+                    <div class="form-step active" data-step="1">
+                        <div class="label-input-container">
+                            <label for="gender">Gender</label>
+                            <select id="gender" name="gender" required>
+                                <option value="" disabled selected>Select...</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="label-input-container">
+                            <label for="age">Age</label>
+                            <input type="number" id="age" name="age" min="13" max="100" placeholder="e.g. 25" required>
+                        </div>
+                    </div>
+
+                    <div class="form-step" data-step="2">
+                        <div class="label-input-container">
+                            <label for="academic_pressure">Academic Pressure</label>
+                            <select id="academic_pressure" name="academic_pressure" required>
+                                <option value="" disabled selected>Select level...</option>
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                        <div class="label-input-container">
+                            <label for="work_pressure">Work Pressure</label>
+                            <select id="work_pressure" name="work_pressure" required>
+                                <option value="" disabled selected>Select level...</option>
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                        <div class="label-input-container">
+                            <label for="financial_stress">Financial Stress</label>
+                            <select id="financial_stress" name="financial_stress" required>
+                                <option value="" disabled selected>Select level...</option>
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-step" data-step="3">
+                        <div class="label-input-container">
+                            <label for="sleep_duration">Sleep Duration (avg/night)</label>
+                            <select id="sleep_duration" name="sleep_duration" required>
+                                <option value="" disabled selected>Select duration...</option>
+                                <option value="Less than 5 hours">Less than 5 hours</option>
+                                <option value="5-7 hours">5–7 hours</option>
+                                <option value="7-9 hours">7–9 hours</option>
+                                <option value="More than 9 hours">More than 9 hours</option>
+                            </select>
+                        </div>
+                        <div class="label-input-container">
+                            <label for="work_hours">Work/Study Hours (per day)</label>
+                            <select id="work_hours" name="work_hours" required>
+                                <option value="" disabled selected>Select hours...</option>
+                                <option value="Less than 4">Less than 4 hours</option>
+                                <option value="4-8">4–8 hours</option>
+                                <option value="More than 8">More than 8 hours</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-step" data-step="4">
+                        <div class="label-input-container">
+                            <label for="family_history">Family History of Mental Illness</label>
+                            <select id="family_history" name="family_history" required>
+                                <option value="" disabled selected>Select...</option>
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                            </select>
+                        </div>
+                        <div class="label-input-container">
+                            <label for="suicidal_thoughts">Have you experienced suicidal thoughts?</label>
+                            <select id="suicidal_thoughts" name="suicidal_thoughts" required>
+                                <option value="" disabled selected>Select...</option>
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" id="prevBtn" class="nav-btn secondary" onclick="changeStep(-1)"
+                            disabled>Back</button>
+                        <button type="button" id="nextBtn" class="nav-btn primary" onclick="changeStep(1)">Next
+                            &rarr;</button>
+                        <button type="submit" id="submitBtn" class="submit-btn hidden">
+                            Analyze Risk
+                            <span class="bottom-gradient"></span>
+                        </button>
+                    </div>
+
+                    <div class="separator"></div>
+
+                    <p class="footer-note">
+                        Your responses are processed securely by our ML model.
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 4;
+
+        function updateUI() {
+            // Update Progress Bar
+            const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+
+            // Update Header Text
+            const titles = ["Demographics", "Stress Factors", "Lifestyle Habits", "Medical History"];
+            document.getElementById('stepTitle').innerText = titles[currentStep - 1];
+            document.getElementById('stepSubtitle').innerText = `Step ${currentStep} of ${totalSteps}`;
+
+            // Show/Hide Steps
+            document.querySelectorAll('.form-step').forEach(step => {
+                step.classList.remove('active');
+                if (parseInt(step.dataset.step) === currentStep) {
+                    step.classList.add('active');
+                }
+            });
+
+            // Handle Buttons
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+
+            prevBtn.disabled = currentStep === 1;
+
+            if (currentStep === totalSteps) {
+                nextBtn.classList.add('hidden');
+                submitBtn.classList.remove('hidden');
+            } else {
+                nextBtn.classList.remove('hidden');
+                submitBtn.classList.add('hidden');
+            }
+        }
+
+        function validateStep(step) {
+            const currentStepDiv = document.querySelector(`.form-step[data-step="${step}"]`);
+            const inputs = currentStepDiv.querySelectorAll('input, select');
+            let isValid = true;
+            inputs.forEach(input => {
+                if (!input.checkValidity()) {
+                    input.reportValidity();
+                    isValid = false;
+                }
+            });
+            return isValid;
+        }
+
+        function changeStep(n) {
+            if (n === 1 && !validateStep(currentStep)) return;
+            currentStep += n;
+            updateUI();
+        }
+
+        updateUI();
+    </script>
+</body>
+
+</html>

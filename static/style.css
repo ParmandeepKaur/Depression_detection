@@ -1,0 +1,318 @@
+:root {
+    /* --- Dark Mode Palette --- */
+    color-scheme: dark;
+    --bg-page: #0a0a0a;
+    --bg-card: #171717;
+    --text-main: #ededed;
+    --text-muted: #a3a3a3;
+    
+    /* Input Fields */
+    --input-bg: #262626;
+    --input-border: #404040;
+    --input-focus: #737373;
+    
+    /* Global Styles */
+    --radius: 12px;
+    --primary-gradient: linear-gradient(135deg, #ffffff 0%, #d4d4d4 100%);
+    
+    /* Risk Result Colors */
+    --risk-high-bg: rgba(225, 29, 72, 0.15); /* Rose-ish */
+    --risk-high-text: #fda4af;
+    --risk-high-border: rgba(225, 29, 72, 0.4);
+    
+    --risk-low-bg: rgba(16, 185, 129, 0.15); /* Emerald-ish */
+    --risk-low-text: #6ee7b7;
+    --risk-low-border: rgba(16, 185, 129, 0.4);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* --- Split Card Layout --- */
+.page-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.card.split-card {
+    background: var(--bg-card);
+    width: 100%;
+    max-width: 900px; /* Wide card for split layout */
+    border-radius: 20px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column; /* Mobile: Stack Vertical */
+    overflow: hidden;
+}
+
+/* Image Side */
+/* Image Side - Updated for Full Visibility */
+.image-side {
+    position: relative;
+    width: 100%;
+    /* Mobile: Allow height to adjust based on image, or set a minimum */
+    min-height: 250px; 
+    background-color: #000000; /* Black background for the empty space around image */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.image-side img {
+    width: 100%;
+    height: 100%;
+    /* CHANGE: 'contain' ensures the whole 1500x1000 image is visible */
+    object-fit: contain; 
+    object-position: center;
+    opacity: 0.9;
+    transition: transform 0.5s ease;
+}
+
+.image-side:hover img {
+    transform: scale(1.02);
+}
+
+/* Overlay adjustments so text doesn't block the image too much */
+.image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    /* Darker gradient to make text readable over the image */
+    background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.6), transparent);
+    color: white;
+    pointer-events: none; /* Let clicks pass through to image */
+}
+
+.image-overlay h3 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+.image-overlay p { font-size: 13px; opacity: 0.8; line-height: 1.5; }
+
+/* Desktop Split (768px+) */
+@media (min-width: 768px) {
+    .card.split-card {
+        flex-direction: row;
+        min-height: 600px; /* Increased height to give the image room */
+    }
+    .image-side { 
+        width: 45%; 
+        height: auto; 
+        background-color: #0f0f0f; /* Matches your dark theme */
+    }
+    .form-side { 
+        width: 55%; 
+        padding: 48px; 
+        justify-content: center; 
+    }
+}
+/* Form Side */
+.form-side {
+    padding: 32px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Desktop Split (768px+) */
+@media (min-width: 768px) {
+    .card.split-card {
+        flex-direction: row;
+        min-height: 550px;
+    }
+    .image-side { width: 45%; height: auto; }
+    .form-side { width: 55%; padding: 48px; justify-content: center; }
+}
+
+/* --- Form Elements --- */
+header { margin-bottom: 24px; }
+.title { font-size: 24px; font-weight: 700; margin-bottom: 4px; color: #fff; }
+.subtitle { font-size: 14px; color: var(--text-muted); }
+
+/* Progress Bar */
+.progress-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(255,255,255,0.05);
+}
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    width: 0%;
+    transition: width 0.4s ease;
+}
+
+/* Steps Animation */
+.form-step { display: none; animation: fadeIn 0.4s ease; }
+.form-step.active { display: flex; flex-direction: column; gap: 16px; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Inputs & Labels */
+.label-input-container { display: flex; flex-direction: column; gap: 8px; }
+label { font-size: 13px; font-weight: 500; color: #d4d4d4; }
+
+input, select {
+    height: 44px;
+    width: 100%;
+    border-radius: 8px;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: white;
+    padding: 0 14px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s;
+}
+
+input:focus, select:focus {
+    border-color: var(--input-focus);
+    background-color: #333;
+    box-shadow: 0 0 0 1px var(--input-focus);
+}
+
+/* Fix Select Arrow for Dark Mode */
+select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a3a3a3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+}
+
+/* Hide Number Spinners */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; margin: 0; 
+}
+input[type=number] { -moz-appearance: textfield; }
+
+/* Buttons */
+.button-group { display: flex; gap: 12px; margin-top: 32px; }
+
+.nav-btn {
+    flex: 1;
+    height: 42px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 14px;
+}
+
+.nav-btn.primary {
+    background: white;
+    color: black;
+}
+.nav-btn.primary:hover { background: #e5e5e5; }
+
+.nav-btn.secondary {
+    background: #262626;
+    color: #e5e5e5;
+    border: 1px solid #404040;
+}
+.nav-btn.secondary:hover { background: #333; }
+.nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.submit-btn {
+    flex: 1;
+    height: 42px;
+    border-radius: 8px;
+    border: none;
+    background: var(--primary-gradient);
+    color: black;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+.submit-btn:hover { opacity: 0.95; }
+
+.hidden { display: none !important; }
+
+.separator {
+    height: 1px;
+    background: #262626;
+    margin: 24px 0 16px;
+}
+.footer-note { font-size: 12px; color: #525252; text-align: center; }
+
+/* --- Result Page Styling --- */
+.result-alert {
+    padding: 24px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    text-align: center;
+    border: 1px solid transparent;
+}
+
+.risk-high {
+    background-color: var(--risk-high-bg);
+    color: var(--risk-high-text);
+    border-color: var(--risk-high-border);
+}
+
+.risk-low {
+    background-color: var(--risk-low-bg);
+    color: var(--risk-low-text);
+    border-color: var(--risk-low-border);
+}
+
+.score-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Recommendations */
+.content-section h3 { font-size: 16px; margin-bottom: 12px; color: #fff; }
+.recommendations ul { list-style: none; padding: 0; margin-bottom: 24px; }
+.recommendations li { position: relative; padding-left: 20px; margin-bottom: 10px; font-size: 14px; color: #d4d4d4; }
+.recommendations li::before { content: "•"; position: absolute; left: 0; color: #fff; }
+
+/* Crisis Box */
+.crisis-box {
+    background-color: rgba(30, 58, 138, 0.2);
+    border: 1px solid rgba(30, 58, 138, 0.4);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+.crisis-box h3 { color: #93c5fd; margin-bottom: 12px; font-size: 15px; }
+.resource-item { color: #60a5fa; margin-bottom: 8px; font-size: 13px; display: flex; flex-direction: column; }
+.resource-item strong { color: #bfdbfe; margin-bottom: 2px; }
+.resource-item a { color: #fff; text-decoration: underline; }
+
+.disclaimer-text {
+    font-size: 11px;
+    color: #525252;
+    text-align: center;
+    margin-bottom: 20px;
+    font-style: italic;
+    line-height: 1.4;
+}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screening Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="card">
+            <header>
+                <h1 class="title">Screening Results</h1>
+                <p class="subtitle">AI-Powered Assessment Analysis</p>
+            </header>
+
+            <div class="result-alert {% if 'High' in risk_level %}risk-high{% elif 'Moderate' in risk_level %}risk-high{% else %}risk-low{% endif %}">
+                <h2>{{ risk_level }}</h2>
+                
+                <div class="score-badge">Probability Score: {{ score }}%</div>
+                
+                <div style="font-size: 11px; margin-top: 8px; opacity: 0.7;">
+                    Analysis Model: Logistic Regression (Accuracy: 84.5%)
+                </div>
+            </div>
+
+            <div class="content-section">
+                {% if 'High' in risk_level or 'Moderate' in risk_level %}
+                <div class="recommendations">
+                    <h3>Recommended Next Steps</h3>
+                    <ul>
+                        <li>Consider scheduling an appointment with a mental health professional.</li>
+                        <li>Speak with your primary care physician about your concerns.</li>
+                        <li>Reach out to trusted friends or family members for support.</li>
+                        <li>Contact a mental health crisis helpline if you need immediate support.</li>
+                    </ul>
+                </div>
+                {% else %}
+                <div class="recommendations">
+                    <h3>Maintaining Mental Wellness</h3>
+                    <ul>
+                        <li>Continue practicing healthy sleep habits.</li>
+                        <li>Maintain regular physical activity and exercise.</li>
+                        <li>Stay connected with friends and family.</li>
+                        <li>Monitor your mental health and seek help if symptoms develop.</li>
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="crisis-box">
+                <h3>Crisis Resources</h3>
+                <div class="resource-item">
+                    <strong>National Suicide Prevention Lifeline:</strong> 
+                    <span>988 (US)</span>
+                </div>
+                <div class="resource-item">
+                    <strong>Crisis Text Line:</strong> 
+                    <span>Text "HELLO" to 741741</span>
+                </div>
+                <div class="resource-item">
+                    <strong>International Help:</strong> 
+                    <a href="https://www.iasp.info/resources/Crisis_Centres/" target="_blank">Find your local helpline &rarr;</a>
+                </div>
+            </div>
+
+            <div class="separator"></div>
+
+            <div class="disclaimer-text">
+                <strong>Important Reminder:</strong> This screening tool uses a machine learning model for estimation only. 
+                It is not a medical diagnosis. Always seek the advice of qualified health providers.
+            </div>
+
+            <a href="/" class="submit-btn" style="display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                Take Another Assessment
+            </a>
+        </div>
+    </div>
+</body>
+</html>
