@@ -31,3 +31,5 @@ Depression_detection/
 ├── requirements.txt    # Project dependencies
 ├── README.md           # Project documentation
 └── .gitignore          # Ignored files for GitHub
+
+Model Training Notebook: `notebooks/Depression_code.ipynb`
