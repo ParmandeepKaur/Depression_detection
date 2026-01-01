@@ -15,7 +15,7 @@ except FileNotFoundError:
     print("Error: 'student_depression_dataset.csv' not found. Please make sure the file is in the same folder.")
     exit()
 
-# 2. Select only the columns matching your Website Form
+# 2. Columns matching Website Form
 required_columns = [
     'Gender', 
     'Age', 
@@ -29,7 +29,7 @@ required_columns = [
     'Depression' # Target
 ]
 
-# Filter dataset (Column names must match exactly)
+# Filter dataset
 try:
     df = df[required_columns].copy()
 except KeyError as e:
@@ -42,7 +42,7 @@ df.replace('?', np.nan, inplace=True)
 # List of columns that MUST be numbers
 numeric_cols = ['Age', 'Academic Pressure', 'Work Pressure', 'Financial Stress', 'Work/Study Hours']
 
-# Force these columns to be numeric (coercing errors will turn non-numbers into NaN)
+# Force these columns to be numeric
 for col in numeric_cols:
     df[col] = pd.to_numeric(df[col], errors='coerce')
 
@@ -82,7 +82,7 @@ numeric_features = ['Age', 'Academic Pressure', 'Work Pressure', 'Financial Stre
 
 # Transformer for numeric columns (Impute missing with Median, then Scale)
 numeric_transformer = Pipeline(steps=[
-    ('imputer', SimpleImputer(strategy='median')), # This will now work because '?' is gone
+    ('imputer', SimpleImputer(strategy='median')),
     ('scaler', StandardScaler())
 ])
 
