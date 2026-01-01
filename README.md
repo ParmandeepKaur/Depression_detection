@@ -1,6 +1,6 @@
 # Depression Detection System (Flask + Machine Learning)
 
-## 📌 Project Overview
+## Project Overview
 This project is a **Depression Detection System** that uses **Machine Learning** to predict the **risk percentage of depression** based on user inputs.  
 The model is integrated with a **Flask web application**, where users can enter data and receive a predicted depression risk score.
 
@@ -8,7 +8,7 @@ This project also demonstrates **DevOps fundamentals** using **GitHub** for vers
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 - **Programming Language:** Python  
 - **Backend:** Flask  
 - **Machine Learning:** Scikit-learn, NumPy, Pandas  
@@ -18,7 +18,7 @@ This project also demonstrates **DevOps fundamentals** using **GitHub** for vers
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 ```text
 Depression_detection/
 │
