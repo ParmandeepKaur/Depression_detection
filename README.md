@@ -33,3 +33,9 @@ Depression_detection/
 └── .gitignore          # Ignored files for GitHub
 
 Model Training Notebook: `notebooks/Depression_code.ipynb`
+
+## Run with Docker
+
+```bash
+docker build -t depression-detection .
+docker run -p 5000:5000 depression-detection
