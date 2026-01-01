@@ -147,16 +147,13 @@
         const totalSteps = 4;
 
         function updateUI() {
-            // Update Progress Bar
             const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
             document.getElementById('progressBar').style.width = `${progress}%`;
 
-            // Update Header Text
             const titles = ["Demographics", "Stress Factors", "Lifestyle Habits", "Medical History"];
             document.getElementById('stepTitle').innerText = titles[currentStep - 1];
             document.getElementById('stepSubtitle').innerText = `Step ${currentStep} of ${totalSteps}`;
 
-            // Show/Hide Steps
             document.querySelectorAll('.form-step').forEach(step => {
                 step.classList.remove('active');
                 if (parseInt(step.dataset.step) === currentStep) {
@@ -164,7 +161,6 @@
                 }
             });
 
-            // Handle Buttons
             const prevBtn = document.getElementById('prevBtn');
             const nextBtn = document.getElementById('nextBtn');
             const submitBtn = document.getElementById('submitBtn');
