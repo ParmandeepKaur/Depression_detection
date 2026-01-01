@@ -60,7 +60,7 @@ def screen():
         
         age = float(data.get('age'))
 
-        # 2. Create DataFrame for Prediction
+        # 2. DataFrame for Prediction
         input_data = pd.DataFrame([{
             'Gender': gender,
             'Age': age,
@@ -77,7 +77,7 @@ def screen():
         probability = model.predict_proba(input_data)[0][1] # Probability of Class 1 (Depression)
         risk_score = int(probability * 100) # Convert 0.85 -> 85
         
-        # --- PROOF THE MODEL IS WORKING ---
+        # Model working
         print(f"\nMODEL PREDICTION:")
         print(f"Input Data: {input_data.to_dict(orient='records')}")
         print(f"Raw Probability: {probability:.4f}")
