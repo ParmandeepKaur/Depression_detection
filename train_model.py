@@ -7,7 +7,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler
 
-# 1. Load Data
+# 1. Load Dataset
 try:
     df = pd.read_csv('student_depression_dataset.csv')
     print("Dataset loaded successfully.")
