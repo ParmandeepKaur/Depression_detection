@@ -5,7 +5,7 @@ import os
 
 app = Flask(__name__)
 
-# Load the trained model
+# Load model
 MODEL_PATH = 'depression_model.pkl'
 
 if os.path.exists(MODEL_PATH):
